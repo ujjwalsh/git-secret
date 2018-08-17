@@ -49,14 +49,11 @@ Only required if dealing with manuals, `gh-pages` or releases:
 
 ### Branches
 
-We have three long-live branches: `master`, `develop` and `gh-pages` for static site.
+We have two long-live branches: `master` and `gh-pages` for static site. Please submit pull requests against these. Please then check the output of CI build and fix any issues.
 
-It basically looks like that:
+We prefer a feature or fix per pull request and to squash merge them into master. If you feel that an alternative merge or rebase is appropriate please add a comment to the pull request.
 
-> `your-branch` -> `develop` -> `master`
-
-- `master` branch is protected. So only fully tested code goes there. It is also used to create a new `git` tag and a `github` release
-- `develop` is where the development is done and the branch you should send your pull-requests to
+Pull requests that include new unit tests are likely to be more rapidly merged. 
 
 ### Continuous integration
 
