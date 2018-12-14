@@ -22,6 +22,7 @@ function teardown {
   # this should give an error because there is no user named 'user', 
   # even though there are users with the substring 'user'.
   # See issue https://github.com/sobolevn/git-secret/issues/176 
+  #echo "# tell on substring 'user': status is $status" >&3
   [ "$status" -eq 1 ]
 
   run git secret whoknows 
@@ -29,19 +30,23 @@ function teardown {
   
 }
 
-@test "fail on no users" {
+@test "fail on no users told" {
   run _user_required
-  [ "$status" -eq 1 ]
+  #echo "# fail on no users:: status is $status" >&3
+  [ "$status" -eq "1" ]
 }
 
 
-@test "constantly fail on no users" {
+@test "constantly fail on no users told" {
   # We had a serious bug with _user_required,
   # see this link for the details:
   # https://github.com/sobolevn/git-secret/issues/74
 
   # Preparations:
   git secret tell -d "$TEST_GPG_HOMEDIR" "$TEST_DEFAULT_USER"
+  echo "# constantly fail on no users:: status is $status" >&3
+  [ "$status" -eq 1 ]
+
   git secret killperson "$TEST_DEFAULT_USER"
 
   # It was showing something like `tru::1:1289775241:0:2:1:6`
@@ -83,14 +88,18 @@ function teardown {
 
 @test "run 'tell' normally" {
   run git secret tell -d "$TEST_GPG_HOMEDIR" "$TEST_DEFAULT_USER"
+  echo "# test git-secret tell" >&3
+  echo "# status is $status" >&3
   [ "$status" -eq 0 ]
 
   # Testing that now user is found:
   run _user_required
+  echo "# test user required" >&3
   [ "$status" -eq 0 ]
 
   # Testing that now user is in the list of people who knows the secret:
   run git secret whoknows
+  echo "# test whoknows" >&3
   [[ "$output" == *"$TEST_DEFAULT_USER"* ]]
 }
 

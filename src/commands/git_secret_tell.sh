@@ -64,7 +64,9 @@ function tell {
     _abort "you must provide at least one email address."
   fi
 
+  #echo "# tell: asserting keychain in '$homedir' contains emails '${emails[@]}'}" >&3
   _assert_keychain_contains_emails "$homedir" "${emails[@]}"
+  #echo "# tell: asserting keychain: passed" >&3
 
   local start_key_cnt
   start_key_cnt=$(get_gpg_key_count)
@@ -73,6 +75,17 @@ function tell {
     _temporary_file  # note, that `_temporary_file` will export `filename` var.
     # shellcheck disable=2154
     local keyfile="$filename"
+
+    #echo "# tell: getting fingerprint of '$email' from '$homedir'" >&3
+    #local fingerprint
+    #fingerprint=$(_get_user_fingerprint "$email" "$homedir")
+    #echo "# tell: fingerprint '$email' from '$homedir' is $fingerprint" >&3
+
+    #if [[ -z "$fingerprint" ]]; then 
+    #    _warn "no fingerprint found for '$email'"
+    #    #_abort "no fingerprint found for '$email'"
+    #fi
+    #echo "# fingerprint for '$email' is: '$fingerprint'" >&3
 
     local exit_code
     if [[ -z "$homedir" ]]; then

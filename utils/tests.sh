@@ -11,4 +11,8 @@ export SECRETS_DIR=.gitsecret-testdir
 
 # bats expects diagnostic lines to be sent to fd 3, matching reges '^ #' (IE, like: `echo '# message here' >&3`)
 # bats ... 3>&1 shows diagnostic output when errors occur.
+#bats "${SECRET_PROJECT_ROOT}/tests/test_whoknows.bats" 3>&1
+#bats "${SECRET_PROJECT_ROOT}/tests/test_expiration.bats" 3>&1
+bats "${SECRET_PROJECT_ROOT}/tests/test_tell.bats" 3>&1
+bats "${SECRET_PROJECT_ROOT}/tests/test_killperson.bats" 3>&1
 bats "${SECRET_PROJECT_ROOT}/tests/" 3>&1
