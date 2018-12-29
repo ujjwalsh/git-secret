@@ -59,14 +59,15 @@ sub main {
             $hash{$email} = $fpr;
         }
     }
-    if ($user) {
+    #if ($user) {
         #die "$prog: no fingerprint for user: $user\n" unless exists( $hash{$user} );
         my $result = $hash{$user} // "";
         print "$result\n";
-    } 
-    if (!$user || $verbose) {
+    #} 
+    if ($verbose) {
         print STDERR Dumper( \%hash ) . "\n";
     }
+    exit(0);
 }
 
 sub writelog {

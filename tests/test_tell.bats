@@ -33,7 +33,7 @@ function teardown {
 @test "fail on no users told" {
   run _user_required
   #echo "# fail on no users:: status is $status" >&3
-  [ "$status" -eq "1" ]
+  [ "$status" -eq 1 ]
 }
 
 
@@ -44,8 +44,8 @@ function teardown {
 
   # Preparations:
   git secret tell -d "$TEST_GPG_HOMEDIR" "$TEST_DEFAULT_USER"
-  echo "# constantly fail on no users:: status is $status" >&3
-  [ "$status" -eq 1 ]
+  #echo "# constantly fail on no users:: status is $status" >&3
+  #[ "$status" -eq 1 ]  
 
   git secret killperson "$TEST_DEFAULT_USER"
 

@@ -77,24 +77,27 @@ function tell {
     local keyfile="$filename"
 
     #echo "# tell: getting fingerprint of '$email' from '$homedir'" >&3
-    #local fingerprint
-    #fingerprint=$(_get_user_fingerprint "$email" "$homedir")
+    local fingerprint
+    fingerprint=$(_get_user_fingerprint "$email" "$homedir")
     #echo "# tell: fingerprint '$email' from '$homedir' is $fingerprint" >&3
 
-    #if [[ -z "$fingerprint" ]]; then 
-    #    _warn "no fingerprint found for '$email'"
-    #    #_abort "no fingerprint found for '$email'"
-    #fi
-    #echo "# fingerprint for '$email' is: '$fingerprint'" >&3
+    if [[ -z "$fingerprint" ]]; then 
+       # _warn "no fingerprint found for '$email'"
+        _abort "no fingerprint found for '$email'"
+    else
+       _warn "fingerprint for '$email' is: '$fingerprint'" 
+    fi
 
     local exit_code
     if [[ -z "$homedir" ]]; then
       $SECRETS_GPG_COMMAND --export -a "$email" > "$keyfile"
+      #$SECRETS_GPG_COMMAND --export -a "$fingerprint" > "$keyfile"
       exit_code=$?
     else
       # It means that homedir is set as an extra argument via `-d`:
       $SECRETS_GPG_COMMAND --no-permission-warning --homedir="$homedir" \
         --export -a "$email" > "$keyfile"
+        #--export -a "$fingerprint" > "$keyfile"
       exit_code=$?
     fi
     if [[ "$exit_code" -ne 0 ]]; then

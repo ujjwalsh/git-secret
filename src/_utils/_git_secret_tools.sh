@@ -588,19 +588,19 @@ function _user_required {
   fi
 }
 
-#function _get_user_fingerprint {
-#    local username="$1"
-#    local homedir="$2"
-#    local fingerprint
-#    if [[ -z "$homedir" ]]; then
-#        #homedir=$(_get_secrets_dir_keys)
-#        _abort "you must pass a homedir to _get_user_fingerprint"
-#    fi
-#    set +e
-#    fingerprint=$($SECRETS_GPG_COMMAND --homedir "$secrets_dir_keys" --no-permission-warning -n --list-secret-keys --with-colons | /Users/joshr/gitsrc/git-secret/fingerprints.pl --homedir "$secrets_dir_keys" --stdin --user "$username" )
-#    set -e
-#    echo "$fingerprint"
-#}
+function _get_user_fingerprint {
+    local username="$1"
+    local homedir="$2"
+    local fingerprint
+    if [[ -z "$homedir" ]]; then
+        #homedir=$(_get_secrets_dir_keys)
+        _abort "you must pass a homedir to _get_user_fingerprint"
+    fi
+    set +e
+    fingerprint=$($SECRETS_GPG_COMMAND --homedir "$secrets_dir_keys" --no-permission-warning -n --list-secret-keys --with-colons | /Users/joshr/gitsrc/git-secret/fingerprints.pl --homedir "$secrets_dir_keys" --stdin --user "$username" )
+    set -e
+    echo "$fingerprint"
+}
 
 
 # note: this has the same 'username matching' issue described in 
