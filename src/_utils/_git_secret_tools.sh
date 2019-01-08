@@ -185,7 +185,7 @@ function _delete_line {
 
 
 # this sets the global variable 'filename'
-# currently this function is only used by 'hide'
+# currently this function is only used by 'tell' and _get_user_fingerprint()
 function _temporary_file {
   # This function creates temporary file
   # which will be removed on system exit.
@@ -593,12 +593,13 @@ function _get_user_fingerprint {
     local homedir="$2"
     local fingerprint
     if [[ -z "$homedir" ]]; then
-        #homedir=$(_get_secrets_dir_keys)
         _abort "you must pass a homedir to _get_user_fingerprint"
     fi
-    set +e
-    fingerprint=$($SECRETS_GPG_COMMAND --homedir "$secrets_dir_keys" --no-permission-warning -n --list-secret-keys --with-colons | /Users/joshr/gitsrc/git-secret/fingerprints.pl --homedir "$secrets_dir_keys" --stdin --user "$username" )
-    set -e
+
+    _temporary_file # exports `filename` var
+    $SECRETS_GPG_COMMAND --list-keys --homedir "$homedir" --no-permission-warning -n --with-colons > "$filename"
+    fingerprint=$(/Users/joshr/gitsrc/git-secret/fingerprints-simple.pl "$username" < "$filename")
+    
     echo "$fingerprint"
 }
 
